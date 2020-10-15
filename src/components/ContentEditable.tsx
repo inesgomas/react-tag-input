@@ -10,6 +10,7 @@ interface Props {
   remove: () => void;
   validator?: (value: string) => boolean;
   removeOnBackspace?: boolean;
+  delimiters?: number[];
 }
 
 export class ContentEditable extends React.Component<Props> {
@@ -77,14 +78,15 @@ export class ContentEditable extends React.Component<Props> {
   }
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { delimiters } = this.props;
 
     // On enter, focus main tag input
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 || delimiters?.includes(e.keyCode) ) {
       e.preventDefault();
       this.focusInputRef();
       return;
     }
-
+    
     // On backspace, if no content in ref, remove tag and focus main tag input
     const { removeOnBackspace } = this.props;
     const value = this.getValue();
