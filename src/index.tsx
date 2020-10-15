@@ -36,8 +36,12 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const { input } = this.state;
     const { validator, removeOnBackspace, delimiters } = this.props;
 
+    //Check if alt + tab was hit to onfocus element
+    if(e.keyCode === 9 && e.altKey) {
+      this.inputRef.current?.blur();
+    }
     // Check if default Enter or one of the delimiter keys was hit
-    if (e.keyCode === 13 || delimiters?.includes(e.keyCode)) {
+    else if (e.keyCode === 13 || delimiters?.includes(e.keyCode)) {
 
       // Prevent form submission if tag input is nested in <form>
       e.preventDefault();

@@ -28,7 +28,6 @@ function Example() {
         delimiters={[9, 13, 188, 32]}
         onChange={(value) => setTags(value)}
       />
-      {tags}
 
       <div className="form">
 
