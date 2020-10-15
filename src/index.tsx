@@ -34,7 +34,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
   onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     const { input } = this.state;
-    const { validator, removeOnBackspace, delimiters } = this.props;
+    const { validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
 
     //Check if alt + tab was hit to onfocus element
     if(e.keyCode === 9 && e.altKey) {
@@ -72,6 +72,26 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     }
 
+  }
+
+  onPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+
+    // Cancel paste event
+    e.preventDefault();
+
+    // Remove formatting from clipboard contents
+    const text = e.clipboardData.getData("text/plain");
+
+    const splitText = text.split(/[ ,\n\r\t\v\f\0]+/)
+    
+    //If a list with spaces or commas is pasted, each item will be a tag
+    const tags = [ ...this.props.tags ];
+    splitText.map((tag) => {
+      if (!tags.includes(tag) && tag !== "") {
+        tags.push(tag);
+      }
+    })
+    this.props.onChange(tags);
   }
 
   addTag = (value: string) => {
@@ -137,6 +157,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
             placeholder={placeholder || "Type and press enter"}
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
+            onPaste={this.onPaste}
           />
         }
       </div>

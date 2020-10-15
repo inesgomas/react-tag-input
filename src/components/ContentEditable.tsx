@@ -36,9 +36,12 @@ export class ContentEditable extends React.Component<Props> {
     // Remove formatting from clipboard contents
     const text = e.clipboardData.getData("text/plain");
 
-    // Insert text manually from paste command
-    document.execCommand("insertHTML", false, safeHtmlString(text));
+    const splitText = text.split(/,| /)
 
+    const firstString = splitText[0]
+
+    // Insert text manually from paste command
+    document.execCommand("insertHTML", false, safeHtmlString(firstString));
   }
 
   onFocus = () => {
