@@ -11,6 +11,7 @@ interface Props {
     removeOnBackspace?: boolean;
     delimiters?: number[];
 }
+export declare const CloseIcon: () => JSX.Element;
 export declare class Tag extends React.Component<Props> {
     innerEditableRef: React.RefObject<HTMLDivElement>;
     remove: () => void;
