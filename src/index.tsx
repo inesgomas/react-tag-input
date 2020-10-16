@@ -5,6 +5,7 @@ import {classSelectors} from "./utils/selectors";
 type Tags = string[];
 
 export interface ReactTagInputProps {
+  id?: string;
   tags: Tags;
   onChange: (tags: Tags) => void;
   placeholder?: string;
@@ -13,7 +14,7 @@ export interface ReactTagInputProps {
   editable?: boolean;
   readOnly?: boolean;
   removeOnBackspace?: boolean;
-  delimiters?: number[]
+  delimiters?: number[];
 }
 
 interface State {
@@ -126,7 +127,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
+    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
@@ -135,7 +136,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const showInput = !readOnly && !maxTagsReached;
 
     return (
-      <div className={classSelectors.wrapper}>
+      <div id={id} className={classSelectors.wrapper}>
         {tags.map((tag, i) => (
           <Tag
             key={i}

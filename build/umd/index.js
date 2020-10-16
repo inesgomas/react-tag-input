@@ -262,11 +262,11 @@
         ReactTagInput.prototype.render = function () {
             var _this = this;
             var input = this.state.input;
-            var _a = this.props, tags = _a.tags, _b = _a.placeholder, placeholder = _b === void 0 ? "Type and press enter" : _b, maxTags = _a.maxTags, editable = _a.editable, readOnly = _a.readOnly, validator = _a.validator, removeOnBackspace = _a.removeOnBackspace, _c = _a.delimiters, delimiters = _c === void 0 ? [9, 13, 188, 32] : _c;
+            var _a = this.props, id = _a.id, tags = _a.tags, _b = _a.placeholder, placeholder = _b === void 0 ? "Type and press enter" : _b, maxTags = _a.maxTags, editable = _a.editable, readOnly = _a.readOnly, validator = _a.validator, removeOnBackspace = _a.removeOnBackspace, _c = _a.delimiters, delimiters = _c === void 0 ? [9, 13, 188, 32] : _c;
             var maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
             var isEditable = readOnly ? false : (editable || false);
             var showInput = !readOnly && !maxTagsReached;
-            return (React.createElement("div", { className: classSelectors.wrapper },
+            return (React.createElement("div", { id: id, className: classSelectors.wrapper },
                 tags.map(function (tag, i) { return (React.createElement(Tag, { key: i, value: tag, index: i, editable: isEditable, readOnly: readOnly || false, inputRef: _this.inputRef, update: _this.updateTag, remove: _this.removeTag, validator: validator, removeOnBackspace: removeOnBackspace, delimiters: delimiters })); }),
                 showInput &&
                     React.createElement("input", { ref: this.inputRef, value: input, className: classSelectors.input, placeholder: placeholder, onChange: this.onInputChange, onKeyDown: this.onInputKeyDown, onPaste: this.onPaste })));

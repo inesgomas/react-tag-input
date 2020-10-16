@@ -1,6 +1,7 @@
 import React from "react";
 declare type Tags = string[];
 export interface ReactTagInputProps {
+    id?: string;
     tags: Tags;
     onChange: (tags: Tags) => void;
     placeholder?: string;
