@@ -28,13 +28,15 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { placeholder } = this.props;
+    this.inputRef.current?.setAttribute("size", placeholder?.length.toString()!)
     this.setState({ input: e.target.value });
   }
 
   onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     const { input } = this.state;
-    const { validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
+    const { validator, removeOnBackspace, delimiters } = this.props;
 
     //Check if alt + tab was hit to onfocus element
     if(e.keyCode === 9 && e.altKey) {
@@ -124,7 +126,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { tags, placeholder, maxTags, editable, readOnly, validator, removeOnBackspace, delimiters } = this.props;
+    const { tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
@@ -154,7 +156,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
             ref={this.inputRef}
             value={input}
             className={classSelectors.input}
-            placeholder={placeholder || "Type and press enter"}
+            placeholder={placeholder}
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
             onPaste={this.onPaste}
