@@ -36,7 +36,7 @@ var ReactTagInput = (function (_super) {
         _this.onInputKeyDown = function (e) {
             var _a, _b;
             var input = _this.state.input;
-            var _c = _this.props, validator = _c.validator, removeOnBackspace = _c.removeOnBackspace, delimiters = _c.delimiters;
+            var _c = _this.props, validator = _c.validator, removeOnBackspace = _c.removeOnBackspace, _d = _c.delimiters, delimiters = _d === void 0 ? [9, 13, 188, 32] : _d;
             if (e.keyCode === 9 && e.altKey) {
                 (_a = _this.inputRef.current) === null || _a === void 0 ? void 0 : _a.blur();
             }
@@ -99,7 +99,7 @@ var ReactTagInput = (function (_super) {
     ReactTagInput.prototype.render = function () {
         var _this = this;
         var input = this.state.input;
-        var _a = this.props, id = _a.id, tags = _a.tags, _b = _a.placeholder, placeholder = _b === void 0 ? "Type and press enter" : _b, maxTags = _a.maxTags, editable = _a.editable, readOnly = _a.readOnly, validator = _a.validator, removeOnBackspace = _a.removeOnBackspace, _c = _a.delimiters, delimiters = _c === void 0 ? [9, 13, 188, 32] : _c;
+        var _a = this.props, id = _a.id, tags = _a.tags, _b = _a.placeholder, placeholder = _b === void 0 ? "Type and press enter" : _b, maxTags = _a.maxTags, editable = _a.editable, readOnly = _a.readOnly, validator = _a.validator, removeOnBackspace = _a.removeOnBackspace, delimiters = _a.delimiters;
         var maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
         var isEditable = readOnly ? false : (editable || false);
         var showInput = !readOnly && !maxTagsReached;

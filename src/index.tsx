@@ -37,7 +37,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
   onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     const { input } = this.state;
-    const { validator, removeOnBackspace, delimiters } = this.props;
+    const { validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
 
     //Check if alt + tab was hit to onfocus element
     if(e.keyCode === 9 && e.altKey) {
@@ -127,7 +127,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
+    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
