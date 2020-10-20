@@ -27,6 +27,10 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
   // Ref for input element
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  
+  onWrapperClick = () => {
+    this.inputRef.current?.focus()
+  }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { placeholder } = this.props;
@@ -136,7 +140,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const showInput = !readOnly && !maxTagsReached;
 
     return (
-      <div id={id ? `${id}-wrapper` : ''} className={classSelectors.wrapper}>
+      <div id={id ? `${id}-wrapper` : ''} className={classSelectors.wrapper} onClick={this.onWrapperClick}>
         {tags.map((tag, i) => (
           <Tag
             key={i}

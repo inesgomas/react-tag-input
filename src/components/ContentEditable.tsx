@@ -44,7 +44,11 @@ export class ContentEditable extends React.Component<Props> {
     document.execCommand("insertHTML", false, safeHtmlString(firstString));
   }
 
-  onFocus = () => {
+  onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }
+
+  onFocus = (e: React.FocusEvent<HTMLDivElement>) => {
     this.preFocusedValue = this.getValue();
     this.focused = true;
   }
@@ -125,6 +129,7 @@ export class ContentEditable extends React.Component<Props> {
         ref={innerEditableRef}
         className={className}
         contentEditable={true}
+        onClick={this.onClick}
         onPaste={this.onPaste}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

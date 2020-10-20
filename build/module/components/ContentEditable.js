@@ -27,7 +27,10 @@ var ContentEditable = (function (_super) {
             var firstString = splitText[0];
             document.execCommand("insertHTML", false, safeHtmlString(firstString));
         };
-        _this.onFocus = function () {
+        _this.onClick = function (e) {
+            e.stopPropagation();
+        };
+        _this.onFocus = function (e) {
             _this.preFocusedValue = _this.getValue();
             _this.focused = true;
         };
@@ -87,7 +90,7 @@ var ContentEditable = (function (_super) {
     };
     ContentEditable.prototype.render = function () {
         var _a = this.props, value = _a.value, className = _a.className, innerEditableRef = _a.innerEditableRef;
-        return (React.createElement("div", { ref: innerEditableRef, className: className, contentEditable: true, onPaste: this.onPaste, onFocus: this.onFocus, onBlur: this.onBlur, onKeyDown: this.onKeyDown, dangerouslySetInnerHTML: { __html: safeHtmlString(value) } }));
+        return (React.createElement("div", { ref: innerEditableRef, className: className, contentEditable: true, onClick: this.onClick, onPaste: this.onPaste, onFocus: this.onFocus, onBlur: this.onBlur, onKeyDown: this.onKeyDown, dangerouslySetInnerHTML: { __html: safeHtmlString(value) } }));
     };
     return ContentEditable;
 }(React.Component));

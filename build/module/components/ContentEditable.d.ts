@@ -16,7 +16,8 @@ export declare class ContentEditable extends React.Component<Props> {
     preFocusedValue: string;
     componentDidMount(): void;
     onPaste: (e: React.ClipboardEvent<HTMLDivElement>) => void;
-    onFocus: () => void;
+    onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onFocus: (e: React.FocusEvent<HTMLDivElement>) => void;
     onBlur: () => void;
     onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void;
     getValue: () => string;
