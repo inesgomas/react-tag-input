@@ -266,10 +266,10 @@
             var maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
             var isEditable = readOnly ? false : (editable || false);
             var showInput = !readOnly && !maxTagsReached;
-            return (React.createElement("div", { id: id, className: classSelectors.wrapper },
+            return (React.createElement("div", { id: id ? id + "-wrapper" : '', className: classSelectors.wrapper },
                 tags.map(function (tag, i) { return (React.createElement(Tag, { key: i, value: tag, index: i, editable: isEditable, readOnly: readOnly || false, inputRef: _this.inputRef, update: _this.updateTag, remove: _this.removeTag, validator: validator, removeOnBackspace: removeOnBackspace, delimiters: delimiters })); }),
                 showInput &&
-                    React.createElement("input", { ref: this.inputRef, value: input, className: classSelectors.input, placeholder: placeholder, onChange: this.onInputChange, onKeyDown: this.onInputKeyDown, onPaste: this.onPaste })));
+                    React.createElement("input", { id: id, ref: this.inputRef, value: input, className: classSelectors.input, placeholder: placeholder, onChange: this.onInputChange, onKeyDown: this.onInputKeyDown, onPaste: this.onPaste })));
         };
         return ReactTagInput;
     }(React.Component));

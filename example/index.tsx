@@ -25,6 +25,7 @@ function Example() {
       <ReactTagInput
         {...settings}
         tags={tags}
+        id="example"
         onChange={(value) => setTags(value)}
       />
 

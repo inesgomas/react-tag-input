@@ -136,7 +136,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const showInput = !readOnly && !maxTagsReached;
 
     return (
-      <div id={id} className={classSelectors.wrapper}>
+      <div id={id ? `${id}-wrapper` : ''} className={classSelectors.wrapper}>
         {tags.map((tag, i) => (
           <Tag
             key={i}
@@ -153,7 +153,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
           />
         ))}
         {showInput &&
-          <input
+          <input id={id} 
             ref={this.inputRef}
             value={input}
             className={classSelectors.input}
