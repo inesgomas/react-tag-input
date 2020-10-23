@@ -11,6 +11,7 @@ export interface ReactTagInputProps {
     readOnly?: boolean;
     removeOnBackspace?: boolean;
     delimiters?: number[];
+    required?: boolean;
 }
 interface State {
     input: string;

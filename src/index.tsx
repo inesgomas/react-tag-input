@@ -15,6 +15,7 @@ export interface ReactTagInputProps {
   readOnly?: boolean;
   removeOnBackspace?: boolean;
   delimiters?: number[];
+  required?: boolean;
 }
 
 interface State {
@@ -131,7 +132,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters } = this.props;
+    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters, required = false } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
@@ -165,6 +166,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
             onPaste={this.onPaste}
+            required={required}
           />
         }
       </div>

@@ -14,18 +14,19 @@ const initialSettings: ReactTagInputProps = {
   readOnly: false,
   removeOnBackspace: true,
   validator: undefined,
+  id: "example",
+  required: true,
 };
 
 function Example() {
   const [tags, setTags] = React.useState<string[]>(["machine-1", "machine-2"]);
   const [settings, setSettings] = React.useState(initialSettings);
-  console.log(tags, settings);
+
   return (
     <>
       <ReactTagInput
         {...settings}
         tags={tags}
-        id="example"
         onChange={(value) => setTags(value)}
       />
 
