@@ -76,42 +76,7 @@ $reactTagMarginPadding: 0.1875em;
   }
 
   @at-root #{&}__tag__remove {
-
-    position: relative;
-    height: $reactTagFontSize * 2;
-    width: $reactTagFontSize * 2;
-
-    font-size: $reactTagFontSize - 0.15;
     cursor: pointer;
-    background: darken($reactTagColorGray, 5%);
-    border-top-right-radius: $reactTagBorderRadius;
-    border-bottom-right-radius: $reactTagBorderRadius;
-
-    &:before, &:after {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      content: ' ';
-      height: $reactTagFontSize - 0.1;
-      width: 0.15em;
-      background-color: $reactTagColorText;
-    }
-    &:before {
-      transform: translateX(-50%) translateY(-50%) rotate(45deg);
-    }
-    &:after {
-      transform: translateX(-50%) translateY(-50%) rotate(-45deg);
-    }
-
-
-    @at-root #{&}-readonly {
-      width: 0;
-      &:before, &:after {
-        content: '';
-        width: 0;
-      }
-    }
-
   }
 
 }

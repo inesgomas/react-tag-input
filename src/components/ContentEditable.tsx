@@ -10,6 +10,7 @@ interface Props {
   remove: () => void;
   validator?: (value: string) => boolean;
   removeOnBackspace?: boolean;
+  delimiters?: number[];
 }
 
 export class ContentEditable extends React.Component<Props> {
@@ -35,12 +36,19 @@ export class ContentEditable extends React.Component<Props> {
     // Remove formatting from clipboard contents
     const text = e.clipboardData.getData("text/plain");
 
-    // Insert text manually from paste command
-    document.execCommand("insertHTML", false, safeHtmlString(text));
+    const splitText = text.split(/,| /)
 
+    const firstString = splitText[0]
+
+    // Insert text manually from paste command
+    document.execCommand("insertHTML", false, safeHtmlString(firstString));
   }
 
-  onFocus = () => {
+  onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }
+
+  onFocus = (e: React.FocusEvent<HTMLDivElement>) => {
     this.preFocusedValue = this.getValue();
     this.focused = true;
   }
@@ -77,14 +85,15 @@ export class ContentEditable extends React.Component<Props> {
   }
 
   onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const { delimiters } = this.props;
 
     // On enter, focus main tag input
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 || delimiters?.includes(e.keyCode) ) {
       e.preventDefault();
       this.focusInputRef();
       return;
     }
-
+    
     // On backspace, if no content in ref, remove tag and focus main tag input
     const { removeOnBackspace } = this.props;
     const value = this.getValue();
@@ -120,6 +129,7 @@ export class ContentEditable extends React.Component<Props> {
         ref={innerEditableRef}
         className={className}
         contentEditable={true}
+        onClick={this.onClick}
         onPaste={this.onPaste}
         onFocus={this.onFocus}
         onBlur={this.onBlur}

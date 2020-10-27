@@ -5,6 +5,7 @@ import {classSelectors} from "./utils/selectors";
 type Tags = string[];
 
 export interface ReactTagInputProps {
+  id?: string;
   tags: Tags;
   onChange: (tags: Tags) => void;
   placeholder?: string;
@@ -13,6 +14,8 @@ export interface ReactTagInputProps {
   editable?: boolean;
   readOnly?: boolean;
   removeOnBackspace?: boolean;
+  delimiters?: number[];
+  required?: boolean;
 }
 
 interface State {
@@ -25,18 +28,28 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
   // Ref for input element
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  
+  onWrapperClick = () => {
+    this.inputRef.current?.focus()
+  }
 
   onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { placeholder } = this.props;
+    this.inputRef.current?.setAttribute("size", placeholder?.length.toString()!)
     this.setState({ input: e.target.value });
   }
 
   onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     const { input } = this.state;
-    const { validator, removeOnBackspace } = this.props;
+    const { validator, removeOnBackspace, delimiters = [9, 13, 188, 32] } = this.props;
 
-    // On enter
-    if (e.keyCode === 13) {
+    //Check if alt + tab was hit to onfocus element
+    if(e.keyCode === 9 && e.altKey) {
+      this.inputRef.current?.blur();
+    }
+    // Check if default Enter or one of the delimiter keys was hit
+    else if (e.keyCode === 13 || delimiters?.includes(e.keyCode)) {
 
       // Prevent form submission if tag input is nested in <form>
       e.preventDefault();
@@ -69,6 +82,26 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
   }
 
+  onPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+
+    // Cancel paste event
+    e.preventDefault();
+
+    // Remove formatting from clipboard contents
+    const text = e.clipboardData.getData("text/plain");
+
+    const splitText = text.split(/[ ,\n\r\t\v\f\0]+/)
+    
+    //If a list with spaces or commas is pasted, each item will be a tag
+    const tags = [ ...this.props.tags ];
+    splitText.map((tag) => {
+      if (!tags.includes(tag) && tag !== "") {
+        tags.push(tag);
+      }
+    })
+    this.props.onChange(tags);
+  }
+
   addTag = (value: string) => {
     const tags = [ ...this.props.tags ];
     if (!tags.includes(value)) {
@@ -99,7 +132,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
 
     const { input } = this.state;
 
-    const { tags, placeholder, maxTags, editable, readOnly, validator, removeOnBackspace } = this.props;
+    const { id, tags, placeholder = "Type and press enter", maxTags, editable, readOnly, validator, removeOnBackspace, delimiters, required = false } = this.props;
 
     const maxTagsReached = maxTags !== undefined ? tags.length >= maxTags : false;
 
@@ -108,7 +141,7 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
     const showInput = !readOnly && !maxTagsReached;
 
     return (
-      <div className={classSelectors.wrapper}>
+      <div id={id ? `${id}-wrapper` : ''} className={classSelectors.wrapper} onClick={this.onWrapperClick}>
         {tags.map((tag, i) => (
           <Tag
             key={i}
@@ -121,16 +154,19 @@ export default class ReactTagInput extends React.Component<ReactTagInputProps, S
             remove={this.removeTag}
             validator={validator}
             removeOnBackspace={removeOnBackspace}
+            delimiters={delimiters}
           />
         ))}
         {showInput &&
-          <input
+          <input id={id} 
             ref={this.inputRef}
             value={input}
             className={classSelectors.input}
-            placeholder={placeholder || "Type and press enter"}
+            placeholder={placeholder}
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
+            onPaste={this.onPaste}
+            required={required}
           />
         }
       </div>
